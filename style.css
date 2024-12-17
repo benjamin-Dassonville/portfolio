@@ -1,0 +1,28 @@
+body {
+    font-family: Arial, sans-serif;
+}
+pre {
+    background-color: #f8f9fa;
+    padding: 1em;
+    border: 1px solid #ddd;
+    overflow-x: auto;
+}
+
+h1, h2 {
+    margin-top: 20px;
+    color: #155724;
+    text-align: center;
+}
+
+.table thead th {
+    background-color: #28a745;
+    color: white;
+    text-align: center;
+}
+.table tbody td {
+    text-align: center;
+}
+
+.navbar {
+    margin-bottom: 20px;
+}
