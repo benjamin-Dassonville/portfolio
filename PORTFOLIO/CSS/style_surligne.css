@@ -1,0 +1,14 @@
+/* Style pour le texte surligné - Version arrondie et discrète */
+::selection {
+    background-color: rgba(44, 62, 80, 0.4); /* Couleur de la navbar avec plus de transparence */
+    color: white; /* Texte en blanc */
+    padding: 0 2px; /* Léger padding horizontal */
+  }
+  
+  /* Pour compatibilité avec Firefox */
+  ::-moz-selection {
+    background-color: rgba(44, 62, 80, 0.4);
+    color: white;
+    border-radius: 3px;
+    padding: 0 2px;
+  }
