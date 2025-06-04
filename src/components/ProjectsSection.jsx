@@ -5,7 +5,7 @@ const projects = [
     id: 1,
     title: "VFG-auto",
     description: "Un site vitrine pour une entreprise de réparation automobile avec un système de prise de rendez-vous.",
-    image: "/projects/project1.png",
+    image: "/public/projects/project1.png",
     tags: ["html", "CSS", "PHP"],
     demoUrl: "https://vfg-auto.com/",
     githubUrl: "#",
