@@ -1,0 +1,146 @@
+.navbar{
+    background-color: var(--green-theme-nav-background-color);
+    height: 80px;
+    display: flex;
+    justify-content: space-between; // Changé de center à space-between
+    align-items: center;
+    font-size: 1.2rem;
+    position: sticky;
+    top: 0; // Ajouté pour le sticky
+    z-index: 1000; // Ajouté pour s'assurer que la navbar reste au-dessus
+
+    &__container{
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: inherit;
+        padding: 0px 20px;
+        justify-content: space-between; // Ajouté pour espacer logo et menu
+        
+        &__logo{
+            color: var(--green-theme-main-color);
+            cursor: pointer;
+            flex-shrink: 0; // Empêche le logo de se rétrécir
+        }
+
+        &__menu{
+            display: flex;
+            list-style: none;
+            text-align: center;
+            margin: 0; // Réinitialise la marge par défaut des ul
+            padding: 0; // Réinitialise le padding par défaut des ul
+
+            &__item{
+                line-height: 40px;
+                margin-right: 1.5rem;
+                font-size: 1.6rem;
+
+                &:last-child {
+                    margin-right: 0; // Supprime la marge du dernier élément
+                }
+
+                &::after{
+                    content: '';
+                    display: block;
+                    height: 3px;
+                    width: 0;
+                    background: transparent;
+                    transition: all 0.5s ease;
+                }
+
+                &:hover::after{
+                    width: 100%;
+                    background: var(--green-theme-main-color);
+                }
+
+                &__links{
+                    color: var(--green-theme-main-color);
+                    text-decoration: none;
+                    padding: 0.5rem;
+                    white-space: nowrap; // Empêche le retour à la ligne
+                }
+            }
+        }
+    }
+}
+
+.nav-icon{
+    display: none;
+    flex-shrink: 0; // Empêche l'icône de se rétrécir
+}
+
+// Tablettes
+@media only screen and (max-width: 1024px){
+    .navbar__container__menu__item{
+        margin-right: 1rem;
+        font-size: 1.4rem;
+    }
+}
+
+// Mobile et tablettes petites
+@media only screen and (max-width: 768px){
+    .navbar{
+        position: relative; // Changé pour éviter les problèmes de positionnement
+    }
+
+    .navbar__container{
+        justify-content: space-between;
+        
+        &__menu{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            height: calc(100vh - 80px); // Hauteur complète moins la navbar
+            border-top: 1px solid #fff;
+            position: fixed; // Changé de absolute à fixed
+            top: 80px;
+            left: -100%; // Changé de -110% à -100%
+            background: #181818; // Déplacé ici pour être toujours présent
+            opacity: 0; // Changé à 0 pour une vraie animation
+            transition: all 0.5s ease;
+            z-index: 999;
+
+            &.active{
+                left: 0px;
+                opacity: 1;
+            }
+
+            &__item{
+                border-bottom: 1px solid #282828;
+                margin: 0px;
+                padding: 20px 0px;
+                text-align: center; // Centre le texte
+                
+                &__links{
+                    display: block;
+                    width: 100%;
+                    padding: 15px 0; // Plus de padding pour une meilleure UX mobile
+                }
+            }
+        }
+    }
+
+    .nav-icon{
+        display: block;
+        cursor: pointer;
+        color: var(--green-theme-main-color);
+        padding-right: 20px;
+        z-index: 1001; // S'assure que l'icône reste cliquable
+    }
+}
+
+// Très petits écrans
+@media only screen and (max-width: 480px){
+    .navbar{
+        padding: 0 10px;
+        
+        &__container{
+            padding: 0px 10px;
+        }
+    }
+    
+    .nav-icon{
+        padding-right: 10px;
+    }
+}

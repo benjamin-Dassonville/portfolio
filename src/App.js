@@ -1,23 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import { Routes, Route, useLocation } from "react-router-dom";
+import Particles from 'react-tsparticles';
+import { loadFull } from 'tsparticles';
+
+import About from "./containers/about/index.jsx";
+import Contact from "./containers/contact/index.jsx";
+import Home from "./containers/home/index.jsx";
+import Portfolio from "./containers/portfolio/index.jsx";
+import Resume from "./containers/resume/index.jsx";
+import Skills from "./containers/skills/index.jsx";
+import Navbar from './components/navbar/index.jsx';
+import particules from './components/utils.js/particules.js';
+import Stage1erAnnee from './containers/portfolio/projet/Stage_1er_Annee';
+import VFGAuto1erAnnee from './containers/portfolio/projet/vfgauto_1er_annee';
+import Stage2emeAnnee from './containers/portfolio/projet/Stage_2eme_Annee';
 
 function App() {
+
+const location = useLocation();
+console.log(location);
+
+const handleInit = async (main)=>{
+  await loadFull(main)
+}
+
+const renderParticleJsInHomePage = location.pathname === "/";
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* particules js */}
+
+    {renderParticleJsInHomePage && (
+          <Particles id='particules' options={particules} init={handleInit}/>
+)}
+
+      {/* navbar */}
+      <Navbar />
+
+      {/* main page content */}
+      <div className='App__main-page-content'>
+        <Routes>
+      <Route index path="/" element={<Home />}/>
+      <Route path="/about" element={<About />}/>
+      <Route path="/resume" element={<Resume />}/>
+      <Route path="/skills" element={<Skills />}/>
+      <Route path="/portfolio" element={<Portfolio />}/>
+      <Route path="/stage" element={<Stage1erAnnee />} />
+      <Route path="/vfgauto" element={<VFGAuto1erAnnee />} />
+      <Route path="/stage2" element={<Stage2emeAnnee />} />
+      {/* <Route path="/contact" element={<Contact />}/> */}
+    </Routes>
+    </div>
+    
+
     </div>
   );
 }
