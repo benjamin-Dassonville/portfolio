@@ -8,7 +8,7 @@ const Home =()=>{
     const navigate = useNavigate();
 
     const handleNavigateToContactMePage=()=>{
-        navigate("/contact")
+        navigate("/about")
     };
 
 
