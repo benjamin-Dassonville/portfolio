@@ -156,7 +156,7 @@ const Stage1erAnnee = () => {
       </section>
 
       <section id="competences">
-        <h2>Synthèse des compétences E5</h2>
+        <h2>compétences aquises durant ce projet</h2>
         <table className="competences-table">
           <tbody>
             <tr>
@@ -183,11 +183,6 @@ const Stage1erAnnee = () => {
               <td>Organiser son développement professionnel</td>
               <td>✅</td>
               <td>Apprentissage React/TS, Docker, WSL2</td>
-            </tr>
-            <tr>
-              <td>Gérer le patrimoine informatique</td>
-              <td>❌</td>
-              <td>Non concerné (pas de gestion système/parc)</td>
             </tr>
           </tbody>
         </table>
