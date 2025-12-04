@@ -6,6 +6,7 @@ import ImageTwo from "../../components/images/image2.jpg";
 import ImageThree from "../../components/images/image3.jpg";
 import ImageFour from "../../components/images/image4.jpg";
 import ImageFive from "../../components/images/image5.jpg";
+import ImageSix from "../../components/images/image6.jpg";
 import "./styles.scss";
 import { Link } from "react-router-dom";
 
@@ -21,6 +22,12 @@ const portfolioData = [
     name: "projet VFG auto",
     image: ImageTwo,
     link: "/vfgauto",
+  },
+  {
+    id: 2,
+    name: "GLPI - Installation Debian 12",
+    image: ImageSix,
+    link: "/glpi",
   },
 ];
 

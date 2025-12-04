@@ -14,6 +14,7 @@ import particules from './components/utils.js/particules.js';
 import Stage1erAnnee from './containers/portfolio/projet/Stage_1er_Annee';
 import VFGAuto1erAnnee from './containers/portfolio/projet/vfgauto_1er_annee';
 import Stage2emeAnnee from './containers/portfolio/projet/Stage_2eme_Annee';
+import GLPI from './containers/portfolio/projet/GLPI';
 
 function App() {
 
@@ -47,6 +48,7 @@ const renderParticleJsInHomePage = location.pathname === "/";
       <Route path="/portfolio" element={<Portfolio />}/>
       <Route path="/stage" element={<Stage1erAnnee />} />
       <Route path="/vfgauto" element={<VFGAuto1erAnnee />} />
+      <Route path="/glpi" element={<GLPI />} />
       <Route path="/stage2" element={<Stage2emeAnnee />} />
       {/* <Route path="/contact" element={<Contact />}/> */}
     </Routes>

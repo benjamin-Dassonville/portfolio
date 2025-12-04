@@ -33,7 +33,12 @@ export const skillsData = [
         skills: [
             "Dépannage système (Windows, OS)",
             "Dépannage réseau de base",
-            "Gestion de parc informatique (vérification, tests, configuration de matériel)"
+            "Gestion de parc informatique (vérification, tests, configuration de matériel)",
+            "Installation et administration GLPI (v10) sur Debian 12",
+            "Configuration PHP (extensions : pdo_mysql, mbstring, intl, xml, zip)",
+            "Gestion MariaDB/MySQL et création de la base GLPI",
+            "Mise en place HTTPS (Let's Encrypt) et configuration de virtual host Apache/Nginx",
+            "Configuration d'agents d'inventaire (FusionInventory / OCS) et intégration"
         ]
     },
     {
