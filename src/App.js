@@ -4,7 +4,6 @@ import Particles from 'react-tsparticles';
 import { loadFull } from 'tsparticles';
 
 import About from "./containers/about/index.jsx";
-import Contact from "./containers/contact/index.jsx";
 import Home from "./containers/home/index.jsx";
 import Portfolio from "./containers/portfolio/index.jsx";
 import Resume from "./containers/resume/index.jsx";
@@ -50,7 +49,7 @@ const renderParticleJsInHomePage = location.pathname === "/";
       <Route path="/vfgauto" element={<VFGAuto1erAnnee />} />
       <Route path="/glpi" element={<GLPI />} />
       <Route path="/stage2" element={<Stage2emeAnnee />} />
-      {/* <Route path="/contact" element={<Contact />}/> */}
+      {/* If you want a contact page in the navbar/route, re-enable this line and import Contact above */}
     </Routes>
     </div>
     

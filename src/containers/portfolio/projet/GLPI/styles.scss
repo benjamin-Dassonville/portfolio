@@ -71,6 +71,19 @@
       font-size: 2.2rem;
       margin-bottom: 1.5rem;
     }
+    &__image {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+      img.screenshot {
+        width: 100%;
+        max-width: 560px;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        object-fit: cover;
+      }
+    }
   }
 
   section {
@@ -172,13 +185,21 @@
       color: var(--green-theme-main-color);
       margin-bottom: 1rem;
     }
+    &__image {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+      img.screenshot {
+        width: 100%;
+        max-width: 640px;
+        height: auto;
+        border-radius: 6px;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+        object-fit: cover;
+      }
+    }
 
-    p { font-size: 1.3rem; margin-bottom: 1.5rem; }
-
-    ul { margin-left: 1rem; }
-  }
-
-  .competences-table {
+            /* tools-list removed — no styles required */
     width: 100%;
     border-collapse: collapse;
     margin: 3rem 0;

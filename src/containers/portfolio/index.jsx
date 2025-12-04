@@ -3,10 +3,8 @@ import { BsInfoCircleFill } from "react-icons/bs";
 import PageHeaderContent from "../../components/pageHeaderContent";
 import ImageOne from "../../components/images/image1.jpg";
 import ImageTwo from "../../components/images/image2.jpg";
-import ImageThree from "../../components/images/image3.jpg";
-import ImageFour from "../../components/images/image4.jpg";
-import ImageFive from "../../components/images/image5.jpg";
-import ImageSix from "../../components/images/image6.jpg";
+// Only import images used by the portfolio page
+import ImageGLPI from "../../assets/images/glpi-screen-1.png";
 import "./styles.scss";
 import { Link } from "react-router-dom";
 
@@ -26,7 +24,7 @@ const portfolioData = [
   {
     id: 2,
     name: "GLPI - Installation Debian 12",
-    image: ImageSix,
+    image: ImageGLPI,
     link: "/glpi",
   },
 ];
@@ -97,9 +95,9 @@ const Portfolio = () => {
               onMouseLeave={() => handleHover(null)}
             >
               <div className="portfolio__content__cards__item__img-wrapper">
-                <a>
-                  <img alt="dummy data" src={item.image} />
-                </a>
+                <Link to={item.link}>
+                  <img alt={item.name} src={item.image} />
+                </Link>
               </div>
               <div className="overlay">
                 {index === hoveredValue && (
