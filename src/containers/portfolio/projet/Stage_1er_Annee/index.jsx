@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles.scss";
 
 // Import des icônes
@@ -12,227 +12,266 @@ import dockerIcon from "../../../../assets/icons/Docker.png";
 import wsl2Icon from "../../../../assets/icons/WSL2.png";
 
 const Stage1erAnnee = () => {
+  const [activeTab, setActiveTab] = useState("pagination");
+  const [lightboxImg, setLightboxImg] = useState(null);
+
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  const openLightbox = (src) => setLightboxImg(src);
+  const closeLightbox = () => setLightboxImg(null);
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "pagination":
+        return (
+          <div className="tab-content-grid">
+            <div className="content-text">
+              <h3>Pagination & Recherche Avancée</h3>
+              <p>
+                Optimisation de l'accès aux données patients via un système de
+                navigation fluide et performant.
+              </p>
+              <ul>
+                <li>
+                  Remplacement du scroll infini par une pagination classique
+                  synchronisée avec l'URL.
+                </li>
+                <li>
+                  Moteur de recherche multi-critères (nom, prénom, email) en
+                  temps réel.
+                </li>
+                <li>
+                  Dropdown dynamique pour le contrôle du volume de données par
+                  page.
+                </li>
+                <li>Gestion robuste des états de chargement et d'erreur.</li>
+              </ul>
+            </div>
+            <div className="content-visual">
+              <div className="feature-illustration">
+                <div className="glass-card-mini">Recherche: "Dassonville"</div>
+                <div className="pagination-mock">
+                  <span>1</span> <span className="active">2</span>{" "}
+                  <span>3</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      case "roles":
+        return (
+          <div className="tab-content-grid">
+            <div className="content-text">
+              <h3>Gestion des Rôles & Vues</h3>
+              <p>
+                Adaptation de l'interface selon le profil utilisateur
+                (Thérapeute ou Proche) pour une sécurité maximale.
+              </p>
+              <ul>
+                <li>
+                  Vues conditionnelles basées sur les permissions utilisateur.
+                </li>
+                <li>Système d'invitation avec validation stricte via Zod.</li>
+                <li>Module de gestion des dossiers patients partagés.</li>
+                <li>Interface simplifiée pour les aidants familiaux.</li>
+              </ul>
+            </div>
+            <div className="content-visual">
+              <div className="feature-illustration">
+                <div className="role-switch-mock">
+                  <span>Mode: Thérapeute</span>
+                  <div className="toggle-bt on"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      default:
+        return null;
     }
   };
 
   return (
-    <div className="stage-container">
-        
-      <h1 className="main-title">Stage Première Année</h1>
+    <div className="vfgauto-container stage-premium">
+      <header>
+        <h1 className="main-title">STAGE — UNIV. LILLE</h1>
+        <nav className="navigation">
+          <button onClick={() => scrollToSection("hero")}>Accueil</button>
+          <button onClick={() => scrollToSection("overview")}>Missions</button>
+          <button onClick={() => scrollToSection("tech")}>Technologies</button>
+          <button onClick={() => scrollToSection("features")}>
+            Réalisations
+          </button>
+          <button onClick={() => scrollToSection("conclusion")}>
+            Conclusion
+          </button>
+        </nav>
+      </header>
 
-      <nav className="navigation">
-        <button onClick={() => scrollToSection('contexte')}>Contexte</button>
-        <button onClick={() => scrollToSection('realisations')}>Réalisations</button>
-        <button onClick={() => scrollToSection('competences')}>Compétences</button>
-        <button onClick={() => scrollToSection('conclusion')}>Conclusion</button>
-      </nav>
-
-      <section id="contexte">
-        <h2>Contexte du stage</h2>
-        <div className="context-details">
-          <div className="context-introduction">
-            <p>
-              Dans le cadre de ma première année de BTS SIO, j'ai effectué un stage de 6 semaines 
-              au sein de l'Université de Lille, sur leur site de la Plaine Image à Roubaix. 
-              Intégré à une équipe de développement, j'ai travaillé en étroite collaboration avec 
-              un développeur senior sur une application web React innovante. Cette application 
-              est conçue pour faciliter la gestion et le suivi des patients par les thérapeutes 
-              et leurs proches.
-            </p>
-            <p>
-              L'application permet notamment aux thérapeutes de gérer les profils de leurs patients, 
-              d'attribuer des accès aux proches, et de mettre en place des outils d'assistance 
-              quotidienne comme des listes de courses ou des tutoriels pratiques. Mon rôle principal 
-              a consisté à optimiser l'expérience utilisateur en développant un système de pagination 
-              avancé et en améliorant les fonctionnalités de recherche.
-            </p>
-          </div>
-
-          <p><strong>Période :</strong> Avril à juin 2025</p>
-          <br/>
-          <p>
-            <strong>Structure d'accueil :</strong> Université de Lille - Site de la Plaine Image (Roubaix)
-          </p><br/>
-          <p>
-            <strong>Environnement :</strong> Collaboration directe avec un développeur senior
-          </p><br/>
-          <p>
-            <strong>Mission principale :</strong> Développement et amélioration d'une application web 
-            d'assistance aux patients, permettant aux thérapeutes et aux proches de gérer :
+      <main className="content-wrapper">
+        {/* HERO SECTION */}
+        <section id="hero" className="hero-section">
+          <div className="hero-badge">STAGE DE 1ère ANNÉE • 6 SEMAINES</div>
+          <h1>Innovation Digitale en Santé Connectée</h1>
+          <p className="hero-subtitle">
+            Immersion au sein de l'Université de Lille (Plaine Image) pour le
+            développement d'une application React d'assistance thérapeutique
+            destinée aux patients et aidants.
           </p>
-          <ul>
-            <li>Les contacts des patients</li>
-            <li>Les listes de courses personnalisées</li>
-            <li>Les tutoriels d'aide aux tâches quotidiennes (ex: gestion du linge)</li>
-          </ul><br/>
-
-          <div className="realisation-principale">
-            <h3>Réalisations clés :</h3>
-            <ul>
-              <li>Implémentation d'un système de pagination avancé pour optimiser la recherche de patients</li>
-              <li>Développement d'un moteur de recherche multi-critères (nom, prénom, email)</li>
-              <li>Adaptation de l'interface pour différents profils utilisateurs (thérapeutes/proches)</li>
-            </ul>
+          <div className="hero-stats">
+            <div className="stat-item">
+              <span className="stat-value">React</span>
+              <span className="stat-label">FrameWork</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-value">TS</span>
+              <span className="stat-label">Typage Fort</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-value">U-Lille</span>
+              <span className="stat-label">Université</span>
+            </div>
           </div>
+        </section>
 
-          <div className="technologies">
-            <h3>Technologies utilisées :</h3>
-            <ul className="tech-list">
-              <li>
-                <img className="tech-icon" src={reactIcon} alt="React icon" />
-                React
-              </li>
-              <li>
-                <img className="tech-icon" src={tsIcon} alt="TypeScript icon" />
-                TypeScript
-              </li>
-              <li>
-                <img className="tech-icon" src={shadcnIcon} alt="Shadcn/ui icon" />
-                shadcn/ui
-              </li>
-              <li>
-                <img className="tech-icon" src={reactQueryIcon} alt="React Query icon" />
-                React Query
-              </li>
-              <li>
-                <img className="tech-icon" src={postgresIcon} alt="PostgreSQL icon" />
-                PostgreSQL
-              </li>
-              <li>
-                <img className="tech-icon" src={drizzleIcon} alt="Drizzle ORM icon" />
-                Drizzle ORM
-              </li>
-              <li>
-                <img className="tech-icon" src={dockerIcon} alt="Docker icon" />
-                Docker
-              </li>
-              <li>
-                <img className="tech-icon" src={wsl2Icon} alt="WSL2 icon" />
-                WSL2
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section id="realisations">
-        <h2>Réalisations professionnelles</h2>
-
-        <div className="realisation">
-          <h3>Pagination avancée + recherche multi-critères</h3>
-          <p>
-            <strong>Période :</strong> Avril – Mai 2025
+        {/* OVERVIEW SECTION */}
+        <section id="overview">
+          <h2>Missions & Objectifs</h2>
+          <p className="section-desc">
+            Ma mission principale était d'améliorer l'expérience utilisateur et
+            l'efficacité opérationnelle d'une plateforme de suivi patient
+            complexe.
           </p>
-          <ul>
-            <li>Remplacement du scroll infini par une pagination classique</li>
-            <li>Ajout d'une recherche dynamique (nom, prénom, email)</li>
-            <li>Synchronisation du numéro de page dans l'URL</li>
-            <li>Dropdown pour choisir le nombre de patients par page</li>
-            <li>Gestion des boutons Précédent / Suivant</li>
-            <li>Compatibilité mobile</li>
-          </ul>
-        </div>
+          <div className="grid-2">
+            <div className="feature-card">
+              <div className="card-icon">🧠</div>
+              <h3>Gestion Patient</h3>
+              <p>
+                Permettre aux thérapeutes de centraliser les historiques, listes
+                de courses et tutoriels de vie quotidienne pour leurs patients.
+              </p>
+            </div>
+            <div className="feature-card">
+              <div className="card-icon">🤝</div>
+              <h3>Collaboration</h3>
+              <p>
+                Travailler en pair-programming avec un développeur senior pour
+                apprendre les standards industriels et les patterns React
+                avancés.
+              </p>
+            </div>
+          </div>
+        </section>
 
-        <div className="realisation">
-          <h3>Gestion des vues et fonctionnalités proches</h3>
-          <p>
-            <strong>Période :</strong> Mai – Juin 2025
+        {/* TECH GRID */}
+        <section id="tech">
+          <h2>Stack Technologique</h2>
+          <p className="section-desc">
+            Un environnement moderne basé sur TypeScript et les outils de
+            développement cloud.
           </p>
-          <ul>
-            <li>Menu déroulant pour basculer entre vues</li>
-            <li>Gestion des invitations en cours</li>
-            <li>Implémentation de l'annulation d'invitation</li>
-            <li>Adaptation pour les "proches"</li>
-            <li>Formulaire d'ajout avec validation Zod</li>
-          </ul>
+          <div className="tech-grid-premium">
+            {[
+              { icon: reactIcon, label: "React" },
+              { icon: tsIcon, label: "TypeScript" },
+              { icon: shadcnIcon, label: "Shadcn/UI" },
+              { icon: reactQueryIcon, label: "React Query" },
+              { icon: postgresIcon, label: "PostgreSQL" },
+              { icon: drizzleIcon, label: "Drizzle ORM" },
+              { icon: dockerIcon, label: "Docker" },
+              { icon: wsl2Icon, label: "WSL2" },
+            ].map((tech, i) => (
+              <div key={i} className="tech-item-premium">
+                <img src={tech.icon} alt={tech.label} />
+                <span>{tech.label}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* FEATURES TAB SECTION */}
+        <section id="features">
+          <h2>Détails des Réalisations</h2>
+          <p className="section-desc">
+            Focus sur les modules critiques développés durant le stage.
+          </p>
+
+          <div className="feature-tabs-nav">
+            <button
+              className={activeTab === "pagination" ? "active" : ""}
+              onClick={() => setActiveTab("pagination")}
+            >
+              Pagination & Recherche
+            </button>
+            <button
+              className={activeTab === "roles" ? "active" : ""}
+              onClick={() => setActiveTab("roles")}
+            >
+              Rôles & Vues
+            </button>
+          </div>
+
+          <div className="tab-content-wrapper">{renderTabContent()}</div>
+        </section>
+
+        {/* CONCLUSION */}
+        <section id="conclusion">
+          <h2>Bilan & Apprentissages</h2>
+          <p className="section-desc">
+            Une expérience fondatrice pour mon parcours de développeur.
+          </p>
+          <div className="grid-3">
+            <div className="feature-card">
+              <h3>Technique</h3>
+              <p>
+                Maîtrise de l'écosystème React/TS et compréhension des flux de
+                données asynchrones (React Query).
+              </p>
+            </div>
+            <div className="feature-card">
+              <h3>Méthodologie</h3>
+              <p>
+                Adoption des méthodes agiles et du code-review system au sein
+                d'une équipe senior.
+              </p>
+            </div>
+            <div className="feature-card">
+              <h3>Projet Pro</h3>
+              <p>
+                Finalisation et livraison d'un rapport de stage complet (40
+                pages) validant l'expérience.
+              </p>
+              <a
+                href="/word/Rapport de Stage.pdf"
+                className="download-btn"
+                download
+              >
+                ⤓ Rapport PDF
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <footer className="vfgauto-footer">
+          <p>Benjamin DASSONVILLE — 2025</p>
+          <p>Plaine Image • Université de Lille</p>
+        </footer>
+      </main>
+
+      {/* LIGHTBOX placeholder if needed */}
+      {lightboxImg && (
+        <div className="lightbox active" onClick={closeLightbox}>
+          <span className="lightbox-close" onClick={closeLightbox}>
+            &times;
+          </span>
+          <img src={lightboxImg} alt="Preview large" />
         </div>
-      </section>
-
-      <section id="competences">
-        <h2>compétences aquises durant ce projet</h2>
-        <table className="competences-table">
-          <tbody>
-            <tr>
-              <td>Développer la présence en ligne</td>
-              <td>✅</td>
-              <td>Interface React dynamique connectée à une API</td>
-            </tr>
-            <tr>
-              <td>Répondre aux demandes d'évolution</td>
-              <td>✅</td>
-              <td>Ajout de pagination, recherche, gestion d'invitations</td>
-            </tr>
-            <tr>
-              <td>Travailler en mode projet</td>
-              <td>✅</td>
-              <td>Analyse, itérations, choix techniques</td>
-            </tr>
-            <tr>
-              <td>Mettre à disposition un service</td>
-              <td>✅</td>
-              <td>Tests, UX, gestion d'erreurs, responsive</td>
-            </tr>
-            <tr>
-              <td>Organiser son développement professionnel</td>
-              <td>✅</td>
-              <td>Apprentissage React/TS, Docker, WSL2</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="conclusion" className="conclusion">
-        <h2>Conclusion</h2>
-        <div className="conclusion-content">
-          <div className="key-learnings">
-            <h3>Apprentissages Clés</h3>
-            <ul>
-              <li>Maîtrise approfondie de React et TypeScript en contexte professionnel</li>
-              <li>Gestion de projets complexes avec des technologies modernes</li>
-              <li>Développement d'API et intégration avec PostgreSQL</li>
-              <li>Implémentation de fonctionnalités avancées (pagination, filtres, gestion des rôles)</li>
-            </ul>
-          </div>
-
-          <div className="professional-growth">
-            <h3>Développement Professionnel</h3>
-            <p>
-              Ces six semaines au sein de l'équipe d'ingénieurs de l'Université de Lille ont été une 
-              expérience enrichissante qui a considérablement renforcé mes compétences techniques 
-              et ma compréhension du développement web professionnel. J'ai acquis une autonomie 
-              précieuse dans la résolution de problèmes complexes tout en apprenant à collaborer 
-              efficacement en équipe.
-            </p>
-          </div>
-
-          <div className="future-perspectives">
-            <h3>Perspectives d'Avenir</h3>
-            <p>
-              Cette expérience m'a donné une vision plus claire de mon parcours professionnel 
-              et a confirmé mon aspiration à poursuivre dans le développement web. Les compétences 
-              acquises en BTS SIO SLAM ont trouvé leur application concrète, et ce stage a renforcé 
-              ma détermination à continuer mon développement dans ce domaine passionnant.
-            </p>
-          </div>
-        </div>
-
-       
-      </section>
-
-      <footer className="stage-footer">
-        <p>Benjamin DASSONVILLE</p>
-        <a href="/word/Rapport de Stage.pdf" target="_blank" rel="noopener noreferrer">
-          📎 Ouvrir mon rapport de stage (PDF)
-        </a>
-        <p>Dernière mise à jour : 29 octobre 2025</p>
-      </footer>
+      )}
     </div>
   );
 };

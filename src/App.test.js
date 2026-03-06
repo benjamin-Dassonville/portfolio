@@ -23,6 +23,6 @@ test("renders VFG Auto title", () => {
       <App />
     </MemoryRouter>,
   );
-  const titleElement = screen.getByText(/Projet VFG Auto - Première Année/i);
+  const titleElement = screen.getByText(/PLATFORME VFG AUTO/i);
   expect(titleElement).toBeInTheDocument();
 });
