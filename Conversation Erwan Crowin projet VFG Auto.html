@@ -1,0 +1,979 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Plateforme VFG Auto — Erwan Crowin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Tabs Navigation */
+        .feature-tabs {
+            display: flex;
+            gap: 8px;
+            margin: 30px 0 20px;
+            flex-wrap: wrap;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--muted);
+            cursor: pointer;
+            border-radius: 10px 10px 0 0;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(147, 51, 234, 0.2));
+            border-color: var(--accent);
+            color: white;
+            border-bottom-color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .stat-number {
+            font-size: 42px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6, #9333ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 95%;
+            max-height: 95%;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            font-weight: 300;
+            transition: transform 0.2s;
+        }
+
+        .lightbox-close:hover {
+            transform: scale(1.2);
+        }
+
+        /* Screenshot preview */
+        .img-clickable {
+            cursor: zoom-in;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .img-clickable:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Progress indicator */
+        .progress-nav {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .progress-dot.active {
+            background: var(--accent);
+            transform: scale(1.3);
+        }
+
+        .progress-dot:hover {
+            background: var(--accent);
+            transform: scale(1.2);
+        }
+
+        .progress-label {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            white-space: nowrap;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .progress-dot:hover .progress-label {
+            opacity: 1;
+        }
+
+        /* Feature card with icon */
+        .feature-card-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .progress-nav {
+                display: none;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+
+            .stat-number {
+                font-size: 32px;
+            }
+
+            .feature-tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+            }
+
+            .tab-btn {
+                flex-shrink: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="brand">ERWAN CROWIN</div>
+                <a href="index.html" class="back-btn">← Retour au portfolio</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Progress Navigation -->
+    <div class="progress-nav">
+        <div class="progress-dot" onclick="scrollToSection('hero')">
+            <span class="progress-label">Intro</span>
+        </div>
+        <div class="progress-dot" onclick="scrollToSection('overview')">
+            <span class="progress-label">Vue d'ensemble</span>
+        </div>
+        <div class="progress-dot" onclick="scrollToSection('features')">
+            <span class="progress-label">Fonctionnalités</span>
+        </div>
+        <div class="progress-dot" onclick="scrollToSection('tech')">
+            <span class="progress-label">Architecture</span>
+        </div>
+        <div class="progress-dot" onclick="scrollToSection('challenges')">
+            <span class="progress-label">Innovations</span>
+        </div>
+        <div class="progress-dot" onclick="scrollToSection('gallery')">
+            <span class="progress-label">Galerie</span>
+        </div>
+    </div>
+
+    <main>
+        <div class="container">
+
+            <!-- HERO SECTION -->
+            <section id="hero" class="project-hero">
+                <h1
+                    style="font-size: 56px; background: linear-gradient(135deg, #3b82f6, #9333ea); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                    VFG Auto - Plateforme de Réservation
+                </h1>
+                <p class="meta" style="font-size: 18px; margin-top: 16px;">
+                    Solution web complète pour la gestion et réservation de rendez-vous en garage automobile
+                </p>
+                <p style="color: var(--muted); margin-top: 12px;">
+                    Projet Full-Stack · PHP & MySQL · BTS SIO SLAM · 2025
+                </p>
+                <div class="tags" style="margin-top: 24px;">
+                    <span class="tag">PHP 8.0</span>
+                    <span class="tag">MySQL</span>
+                    <span class="tag">Bootstrap 5</span>
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">FullCalendar</span>
+                    <span class="tag">Multi-utilisateurs</span>
+                    <span class="tag">Sécurité Avancée</span>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">10</div>
+                        <div class="stat-label">Services Auto</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">8000+</div>
+                        <div class="stat-label">Lignes de Code</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">13</div>
+                        <div class="stat-label">Tables BDD</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">2</div>
+                        <div class="stat-label">Mécaniciens Gérés</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- OVERVIEW -->
+            <section id="overview">
+                <div class="card">
+                    <h2>📋 Contexte & Problématique</h2>
+                    <p>
+                        <strong>VFG Auto</strong> est une plateforme web full-stack développée pour moderniser la
+                        gestion
+                        d'un garage automobile.
+                    </p>
+                    <p>
+                        <strong>La problématique :</strong> Le garage gérait manuellement les rendez-vous et les données
+                        clients,
+                        rendant difficile l'optimisation du planning des mécaniciens et la traçabilité des
+                        interventions.
+                    </p>
+                    <p>
+                        <strong>La solution :</strong> Une application centralisée permettant aux clients de réserver
+                        facilement leurs rendez-vous en ligne, et offrant aux administrateurs des outils puissants de
+                        gestion avec calendrier interactif, statistiques détaillées et suivi complet des véhicules.
+                    </p>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>🎯 Objectifs du projet</h3>
+                        <ul>
+                            <li>Digitaliser le processus de prise de rendez-vous</li>
+                            <li>Optimiser la gestion du planning des mécaniciens</li>
+                            <li>Centraliser les données clients et véhicules</li>
+                            <li>Fournir des statistiques en temps réel</li>
+                            <li>Améliorer l'expérience utilisateur client</li>
+                            <li>Assurer une sécurité maximale des données</li>
+                        </ul>
+                    </div>
+
+                    <div class="card"
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1)); border-left: 4px solid #10b981;">
+                        <h3>✨ Innovation clé</h3>
+                        <div class="feature-card-icon">🚗</div>
+                        <p style="font-size: 16px; line-height: 1.6;">
+                            <strong>Système de réservation intelligent</strong> avec sélection de services par bulles
+                            visuelles, gestion multi-véhicules, calendrier dynamique avec disponibilités en temps réel,
+                            et attribution automatique des mécaniciens selon leurs compétences et disponibilités.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FEATURES WITH TABS -->
+            <section id="features">
+                <div class="card">
+                    <h2>⚙️ Fonctionnalités Détaillées - Tous les Modules</h2>
+                    <p>L'application est organisée en <strong>modules principaux</strong>, chacun avec des
+                        fonctionnalités spécifiques :</p>
+
+                    <div class="feature-tabs">
+                        <button class="tab-btn active" onclick="switchTab('tab-accueil')">🏠 Accueil & Sécurité</button>
+                        <button class="tab-btn" onclick="switchTab('tab-reservation')">📅 Réservation</button>
+                        <button class="tab-btn" onclick="switchTab('tab-client')">👤 Espace Client</button>
+                        <button class="tab-btn" onclick="switchTab('tab-admin')">⚙️ Administration & Gestion</button>
+                        <button class="tab-btn" onclick="switchTab('tab-calendrier')">📆 Calendrier</button>
+                    </div>
+
+                    <!-- TAB: Accueil & Sécurité -->
+                    <div id="tab-accueil" class="tab-content active">
+                        <h3>🏠 Page d'Accueil & Système de Sécurité</h3>
+                        <p>Interface d'accueil moderne avec catalogue de services + système d'authentification sécurisé
+                            multi-étapes.</p>
+
+                        <h4 style="margin-top: 25px; color: #3b82f6;">🎯 Présentation des Services</h4>
+                        <ul>
+                            <li><strong>Catalogue interactif</strong> avec cartes animées pour chaque service</li>
+                            <li><strong>Présentation visuelle</strong> - Photos, descriptions détaillées, durées et
+                                tarifs</li>
+                            <li><strong>Effets hover</strong> révélant les détails et prix des prestations</li>
+                            <li><strong>Modal détaillée</strong> pour approfondir chaque service</li>
+                        </ul>
+
+                        <h4 style="margin-top: 25px; color: #3b82f6;">🔐 Système de Connexion Sécurisé (3 étapes)</h4>
+                        <ul>
+                            <li><strong>Étape 1 : Formulaire de connexion</strong> - Interface moderne et intuitive</li>
+                            <li><strong>Étape 2 : Inscription sécurisée</strong> - Validation email et hash bcrypt</li>
+                            <li><strong>Étape 3 : Récupération mot de passe</strong> - Code à 6 chiffres avec expiration
+                                15min</li>
+                            <li><strong>Protection complète</strong> - Anti SQL injection, CSRF, force brute</li>
+                            <li><strong>Sessions sécurisées</strong> - Timeout automatique et isolation utilisateurs
+                            </li>
+                        </ul>
+
+                        <div class="grid-2"
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 30px 0;">
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-presentation-service.png" alt="Catalogue services"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Catalogue des
+                                    services automobiles</p>
+                            </div>
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-connexion-1.png" alt="Connexion - Étape 1"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Étape 1 - Formulaire
+                                    de connexion</p>
+                            </div>
+                        </div>
+                        <div class="grid-2"
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 30px 0;">
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-connexion-2.png" alt="Connexion - Étape 2"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Étape 2 - Inscription
+                                    sécurisée</p>
+                            </div>
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-connexion-3.png" alt="Connexion - Étape 3"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Étape 3 -
+                                    Récupération de mot de passe</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: Réservation -->
+                    <div id="tab-reservation" class="tab-content">
+                        <h3>📅 Module Réservation</h3>
+                        <p>Processus de réservation en plusieurs étapes avec interface intuitive et moderne.</p>
+                        <ul>
+                            <li><strong>Étape 1 : Choix du service</strong> - Sélection visuelle par bulles interactives
+                            </li>
+                            <li><strong>Étape 2 : Sélection véhicule</strong> - Choix parmi véhicules existants ou ajout
+                                nouveau</li>
+                            <li><strong>Étape 3 : Date et heure</strong> - Calendrier interactif avec disponibilités
+                            </li>
+                            <li><strong>Validation temps réel</strong> des créneaux disponibles</li>
+                            <li><strong>Formulaire véhicule</strong> complet (marque, modèle, immatriculation, km, etc.)
+                            </li>
+                            <li><strong>Confirmation instantanée</strong> avec récapitulatif</li>
+                        </ul>
+                        <div class="grid-2"
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmin(300px, 1fr)); gap: 20px; margin: 30px 0;">
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-reservation-1.png" alt="Choix service"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Étape 1 - Choix du
+                                    service</p>
+                            </div>
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-reservation-2.png" alt="Choix véhicule"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Étape 2 - Choix du
+                                    véhicule</p>
+                            </div>
+                        </div>
+                        <div class="grid-2"
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 30px 0;">
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-reservation-3.png" alt="Calendrier"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Étape 3 - Sélection
+                                    date/heure</p>
+                            </div>
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-reservation-4.png" alt="Confirmation"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Confirmation du
+                                    rendez-vous</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: Espace Client -->
+                    <div id="tab-client" class="tab-content">
+                        <h3>👤 Espace Client</h3>
+                        <p>Dashboard personnalisé pour la gestion des rendez-vous et véhicules.</p>
+                        <ul>
+                            <li><strong>Dashboard personnalisé</strong> avec statistiques et vue d'ensemble</li>
+                            <li><strong>Liste des rendez-vous</strong> passés et à venir</li>
+                            <li><strong>Gestion des véhicules</strong> - Ajout, modification, suppression</li>
+                            <li><strong>Historique complet</strong> des interventions</li>
+                            <li><strong>Profil utilisateur</strong> modifiable</li>
+                            <li><strong>Notifications</strong> pour rappels de RDV</li>
+                        </ul>
+                        <div class="grid-2"
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 30px 0;">
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-tableau-de-bord-client-1.png" alt="Dashboard client"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Dashboard client
+                                    personnalisé</p>
+                            </div>
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-tableau-de-bord-client-2.png" alt="Mes rendez-vous"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Gestion des
+                                    rendez-vous
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: Administration & Gestion -->
+                    <div id="tab-admin" class="tab-content">
+                        <h3>⚙️ Administration & Gestion Complète</h3>
+                        <p>Interface d'administration tout-en-un pour piloter l'intégralité de la plateforme VFG Auto.
+                        </p>
+
+                        <h4 style="margin-top: 25px; color: #3b82f6;">📊 Dashboard & Statistiques</h4>
+                        <ul>
+                            <li><strong>Dashboard avec KPIs</strong> - Statistiques en temps réel (CA, RDV, clients)
+                            </li>
+                            <li><strong>Graphiques interactifs</strong> - Visualisation données par Chart.js</li>
+                            <li><strong>Top services</strong> - Analyse des prestations les plus demandées</li>
+                            <li><strong>Revenus détaillés</strong> - Suivi CA journalier/mensuel/annuel</li>
+                        </ul>
+
+                        <h4 style="margin-top: 25px; color: #3b82f6;">📅 Gestion des Rendez-vous</h4>
+                        <ul>
+                            <li><strong>Vue complète RDV</strong> - Tableau avec filtres avancés (statut, date, client)
+                            </li>
+                            <li><strong>Modification en masse</strong> - Changement statuts, validation, annulation</li>
+                            <li><strong>Attribution mécaniciens</strong> - Assignation selon compétences et
+                                disponibilités</li>
+                            <li><strong>Détails complets</strong> - Informations client, véhicule, service, notes</li>
+                        </ul>
+
+                        <h4 style="margin-top: 25px; color: #3b82f6;">👥 Gestion Utilisateurs & Système</h4>
+                        <ul>
+                            <li><strong>CRUD utilisateurs</strong> - Création, modification, suppression comptes</li>
+                            <li><strong>Rôles et permissions</strong> - Attribution client/admin/mécanicien</li>
+                            <li><strong>Configuration globale</strong> - Paramètres horaires, jours fermeture, quotas
+                            </li>
+                            <li><strong>Logs d'activité</strong> - Traçabilité complète des actions admin</li>
+                        </ul>
+
+                        <div class="grid-3"
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 30px 0;">
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-admin-1.png" alt="Dashboard principal"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Dashboard
+                                    administrateur avec KPIs</p>
+                            </div>
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-admin-2.png" alt="Statistiques"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Statistiques et
+                                    graphiques détaillés</p>
+                            </div>
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-admin-3.png" alt="Gestion RDV"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Gestion complète des
+                                    rendez-vous</p>
+                            </div>
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-admin-4.png" alt="FullCalendar"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Vue calendrier
+                                    FullCalendar</p>
+                            </div>
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-admin-5.png" alt="Planning mécaniciens"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Gestion planning
+                                    mécaniciens</p>
+                            </div>
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-admin-6.png" alt="Détails complets"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Détails rendez-vous
+                                    complets</p>
+                            </div>
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-admin-7.png" alt="Configuration"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Configuration système
+                                    globale</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: Calendrier -->
+                    <div id="tab-calendrier" class="tab-content">
+                        <h3>📆 Module Calendrier & Planning Techniciens</h3>
+                        <p>Calendrier interactif avec FullCalendar permettant aux techniciens de visualiser leur
+                            planning et gérer les rendez-vous.</p>
+                        <ul>
+                            <li><strong>Dashboard planning</strong> - Vue d'ensemble pour les techniciens avec leurs RDV
+                                assignés</li>
+                            <li><strong>Intégration FullCalendar</strong> - Bibliothèque professionnelle</li>
+                            <li><strong>Vue mensuelle</strong> - Aperçu global des rendez-vous</li>
+                            <li><strong>Vue hebdomadaire</strong> - Planning détaillé par semaine</li>
+                            <li><strong>Vue journalière</strong> - Détail des créneaux horaires</li>
+                            <li><strong>Code couleur</strong> par statut (en attente, confirmé, terminé)</li>
+                            <li><strong>Click sur événement</strong> - Détails et modification rapide</li>
+                        </ul>
+                        <div class="grid-3"
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 30px 0;">
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-admin-1.png" alt="Planning techniciens"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Dashboard planning -
+                                    Vue techniciens avec RDV assignés</p>
+                            </div>
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-admin-4.png" alt="Vue FullCalendar"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Calendrier - Vue
+                                    FullCalendar</p>
+                            </div>
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-admin-5.png" alt="Gestion planning"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Gestion du planning
+                                </p>
+                            </div>
+                            <div style="text-align:center;">
+                                <img src="images-vfg/vfg-admin-6.png" alt="Détails rendez-vous"
+                                    class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                    style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                                <p style="color: var(--muted); margin-top: 10px; font-size: 14px;">Vue journalière
+                                    détaillée
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </section>
+
+            <!-- ARCHITECTURE -->
+            <section id="tech">
+                <div class="card">
+                    <h2>🏗️ Architecture Technique</h2>
+
+                    <h3>Base de données MySQL</h3>
+                    <p>Architecture de base de données complète avec <strong>13 tables</strong>
+                        interconnectées :</p>
+
+                    <div class="grid-2">
+                        <div>
+                            <h4>Tables principales :</h4>
+                            <ul>
+                                <li><code>users</code> - Comptes utilisateurs (clients & admins)</li>
+                                <li><code>rdv</code> - Rendez-vous avec statuts et mécaniciens</li>
+                                <li><code>services</code> - Catalogue services automobiles</li>
+                                <li><code>vehicules</code> - Informations véhicules clients</li>
+                                <li><code>mecaniciens</code> - Profils mécaniciens du garage</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Tables support :</h4>
+                            <ul>
+                                <li><code>disponibilites_mecaniciens</code> - Planning hebdomadaire</li>
+                                <li><code>competences_mecaniciens</code> - Compétences/niveaux</li>
+                                <li><code>absences_mecaniciens</code> - Gestion congés</li>
+                                <li><code>horaires_garage</code> - Horaires d'ouverture</li>
+                                <li><code>jours_fermeture</code> - Fermetures exceptionnelles</li>
+                                <li><code>historique_entretien</code> - Historique interventions</li>
+                                <li><code>notifications</code> - Système notifications</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; margin: 20px 0;">
+                        <p><strong>Points techniques avancés :</strong></p>
+                        <ul>
+                            <li>✅ <strong>Triggers SQL</strong> pour validation automatique des rendez-vous</li>
+                            <li>✅ <strong>Contraintes d'intégrité</strong> avec CASCADE pour cohérence données</li>
+                            <li>✅ <strong>Indexes</strong> sur colonnes fréquemment requêtées</li>
+                            <li>✅ <strong>Transactions PDO</strong> pour garantir cohérence</li>
+                            <li>✅ <strong>Requêtes préparées</strong> anti-injection SQL</li>
+                        </ul>
+                    </div>
+
+                    <h3>Stack Technologique</h3>
+                    <div class="grid-2">
+                        <div>
+                            <h4>Backend :</h4>
+                            <ul>
+                                <li><strong>PHP 8.0</strong> - Programmation orientée objet</li>
+                                <li><strong>PDO</strong> - Abstraction base de données</li>
+                                <li><strong>Sessions</strong> - Gestion authentification</li>
+                                <li><strong>Bcrypt</strong> - Hash sécurisé mots de passe</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Frontend :</h4>
+                            <ul>
+                                <li><strong>Bootstrap 5</strong> - Framework CSS responsive</li>
+                                <li><strong>JavaScript ES6</strong> - Interactivité client</li>
+                                <li><strong>FullCalendar</strong> - Bibliothèque calendrier</li>
+                                <li><strong>Material Design Icons</strong> - Iconographie</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- INNOVATIONS -->
+            <section id="challenges">
+                <div class="card">
+                    <h2>💡 Innovations & Points Forts</h2>
+
+                    <div class="grid-2">
+                        <div class="card"
+                            style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1)); border-left: 4px solid #10b981;">
+                            <h3>🚀 Performance</h3>
+                            <p>Code optimisé avec gestion intelligente des requêtes SQL et chargement asynchrone pour
+                                une expérience utilisateur fluide.</p>
+                        </div>
+                        <div class="card"
+                            style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1)); border-left: 4px solid #ef4444;">
+                            <h3>🔒 Sécurité</h3>
+                            <p>Protection complète contre XSS, CSRF et injections SQL. Hash bcrypt et gestion sécurisée
+                                des sessions.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="card"
+                            style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.1)); border-left: 4px solid #3b82f6;">
+                            <h3>📱 UX Moderne</h3>
+                            <p>Interface intuitive avec feedback visuel immédiat, animations fluides et processus
+                                simplifié en 3 étapes.</p>
+                        </div>
+                        <div class="card"
+                            style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(147, 51, 234, 0.1)); border-left: 4px solid #a855f7;">
+                            <h3>📊 Analytics</h3>
+                            <p>Dashboard avec statistiques détaillées, graphiques interactifs et KPIs pour aide à la
+                                décision.</p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; margin-top: 20px;">
+                        <h4>🎯 Défis relevés :</h4>
+                        <ul>
+                            <li><strong>Gestion des conflits de planning</strong> - Algorithme de vérification des
+                                disponibilités en temps réel</li>
+                            <li><strong>Attribution automatique mécaniciens</strong> - Matching selon compétences
+                                requises
+                                et disponibilités</li>
+                            <li><strong>Interface multi-étapes fluide</strong> - UX optimisée pour conversion maximale
+                            </li>
+                            <li><strong>Système de notifications</strong> - Rappels automatiques pour réduire no-shows
+                            </li>
+                            <li><strong>Isolation données multi-utilisateurs</strong> - Chaque utilisateur voit
+                                uniquement
+                                ses données</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GALLERY -->
+            <section id="gallery">
+                <div class="card">
+                    <h2>🖼️ Galerie Complète</h2>
+                    <p>Vue d'ensemble de toutes les interfaces de la plateforme</p>
+
+                    <div class="grid-3"
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 30px 0;">
+                        <!-- Accueil & Sécurité -->
+                        <div style="text-align:center;">
+                            <img src="images-vfg/vfg-presentation-service.png" alt="Catalogue services"
+                                class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                        </div>
+                        <div style="text-align:center;">
+                            <img src="images-vfg/vfg-connexion-1.png" alt="Connexion" class="img-showcase img-clickable"
+                                onclick="openLightbox(this.src)"
+                                style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                        </div>
+                        <div style="text-align:center;">
+                            <img src="images-vfg/vfg-connexion-2.png" alt="Inscription"
+                                class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                        </div>
+                        <div style="text-align:center;">
+                            <img src="images-vfg/vfg-connexion-3.png" alt="Récupération mot de passe"
+                                class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                        </div>
+
+                        <!-- Réservation -->
+                        <div style="text-align:center;">
+                            <img src="images-vfg/vfg-reservation-1.png" alt="Réservation étape 1"
+                                class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                        </div>
+                        <div style="text-align:center;">
+                            <img src="images-vfg/vfg-reservation-2.png" alt="Réservation étape 2"
+                                class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                        </div>
+                        <div style="text-align:center;">
+                            <img src="images-vfg/vfg-reservation-3.png" alt="Réservation étape 3"
+                                class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                        </div>
+
+                        <!-- Espace Client -->
+                        <div style="text-align:center;">
+                            <img src="images-vfg/vfg-tableau-de-bord-client-1.png" alt="Dashboard client"
+                                class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                        </div>
+                        <div style="text-align:center;">
+                            <img src="images-vfg/vfg-tableau-de-bord-client-2.png" alt="Gestion RDV client"
+                                class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                        </div>
+                        <div style="text-align:center;">
+                            <img src="images-vfg/vfg-tableau-de-bord-client-3.png" alt="Profil client"
+                                class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                        </div>
+
+                        <!-- Administration -->
+                        <div style="text-align:center;">
+                            <img src="images-vfg/vfg-admin-1.png" alt="Dashboard admin"
+                                class="img-showcase img-clickable" onclick="openLightbox(this.src)"
+                                style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                        </div>
+                        <div style="text-align:center;">
+                            <img src="images-vfg/vfg-admin-2.png" alt="Statistiques" class="img-showcase img-clickable"
+                                onclick="openLightbox(this.src)"
+                                style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                        </div>
+                        <div style="text-align:center;">
+                            <img src="images-vfg/vfg-admin-3.png" alt="Gestion RDV" class="img-showcase img-clickable"
+                                onclick="openLightbox(this.src)"
+                                style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                        </div>
+                        <div style="text-align:center;">
+                            <img src="images-vfg/vfg-admin-4.png" alt="Calendrier" class="img-showcase img-clickable"
+                                onclick="openLightbox(this.src)"
+                                style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                        </div>
+                        <div style="text-align:center;">
+                            <img src="images-vfg/vfg-admin-5.png" alt="Planning" class="img-showcase img-clickable"
+                                onclick="openLightbox(this.src)"
+                                style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                        </div>
+                        <div style="text-align:center;">
+                            <img src="images-vfg/vfg-admin-6.png" alt="Détails RDV" class="img-showcase img-clickable"
+                                onclick="openLightbox(this.src)"
+                                style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                        </div>
+                        <div style="text-align:center;">
+                            <img src="images-vfg/vfg-admin-7.png" alt="Configuration" class="img-showcase img-clickable"
+                                onclick="openLightbox(this.src)"
+                                style="width: 100%; max-width: 100%; height: auto; border-radius: 12px;">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img src="" id="lightbox-img" alt="Preview">
+    </div>
+
+    <script>
+        // Tab switching
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Remove active from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            // Add active to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Lightbox
+        function openLightbox(src) {
+            document.getElementById('lightbox').classList.add('active');
+            document.getElementById('lightbox-img').src = src;
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        // Scroll to section
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Progress dots highlighting
+        window.addEventListener('scroll', () => {
+            const sections = ['hero', 'overview', 'features', 'tech', 'challenges', 'gallery'];
+            const dots = document.querySelectorAll('.progress-dot');
+
+            let current = '';
+            sections.forEach(section => {
+                const element = document.getElementById(section);
+                const rect = element.getBoundingClientRect();
+                if (rect.top <= 150) {
+                    current = section;
+                }
+            });
+
+            dots.forEach((dot, index) => {
+                dot.classList.remove('active');
+                if (sections[index] === current) {
+                    dot.classList.add('active');
+                }
+            });
+        });
+
+        // Animation observer for cards
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Observe all cards
+        document.querySelectorAll('.card').forEach(card => observer.observe(card));
+    </script>
+
+</body>
+
+</html>
+```
