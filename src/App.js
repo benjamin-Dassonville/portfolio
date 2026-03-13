@@ -17,6 +17,7 @@ import Stage2emeAnnee from './containers/portfolio/projet/Stage_2eme_Annee';
 import GLPI from './containers/portfolio/projet/GLPI';
 import AngleIntermaideProject from './containers/portfolio/projet/Angle_Interm_Aide';
 
+
 function App() {
 
 const location = useLocation();
