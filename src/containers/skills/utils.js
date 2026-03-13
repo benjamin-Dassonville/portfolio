@@ -107,3 +107,88 @@ export const skillsData = [
     skills: ["Implémentation de i18next pour la traduction multi‑langues"],
   },
 ];
+
+export const projectSkillsData = [
+  {
+    label: "🧩 Conception d'Architecture Applicative",
+    skills: [
+      "Conception d'une application web full-stack structurée",
+      "Modélisation d'une architecture modulaire pour une plateforme métier",
+      "Séparation logique des modules (réservation, client, administration)",
+      "Structuration d'une application multi-interfaces (client / admin / technicien)",
+      "Conception de flux utilisateurs multi-étapes"
+    ],
+  },
+  {
+    label: "🗃️ Conception et Modélisation de Base de Données",
+    skills: [
+      "Modélisation d'une base relationnelle complète (13 tables interconnectées)",
+      "Conception de relations complexes entre entités métiers",
+      "Gestion de contraintes d'intégrité référentielle",
+      "Utilisation de triggers SQL pour automatiser des validations",
+      "Optimisation des requêtes via indexation des colonnes critiques",
+      "Gestion transactionnelle avec PDO pour garantir la cohérence des données"
+    ],
+  },
+  {
+    label: "🔐 Sécurité Applicative",
+    skills: [
+      "Implémentation de protections contre les injections SQL",
+      "Protection contre les attaques CSRF et XSS",
+      "Hash sécurisé des mots de passe avec bcrypt",
+      "Gestion sécurisée des sessions utilisateurs",
+      "Mise en place de systèmes de récupération de mot de passe avec expiration",
+      "Isolation des données entre utilisateurs"
+    ],
+  },
+  {
+    label: "⚙️ Logique Métier & Automatisation",
+    skills: [
+      "Développement d'algorithmes de gestion de disponibilité",
+      "Système d'attribution automatique de ressources (mécaniciens)",
+      "Validation métier des créneaux de réservation",
+      "Gestion automatique des conflits de planning",
+      "Automatisation de notifications utilisateurs"
+    ],
+  },
+  {
+    label: "📅 Gestion Avancée de Planning",
+    skills: [
+      "Intégration et personnalisation de la bibliothèque FullCalendar",
+      "Gestion dynamique d'événements calendrier",
+      "Synchronisation base de données / calendrier",
+      "Gestion multi-vues (jour / semaine / mois)",
+      "Gestion visuelle des statuts via code couleur"
+    ],
+  },
+  {
+    label: "📊 Analyse et Visualisation de Données",
+    skills: [
+      "Création de tableaux de bord avec indicateurs métiers",
+      "Mise en place de KPIs pour le suivi d'activité",
+      "Visualisation graphique des données avec Chart.js",
+      "Analyse statistique des services et rendez-vous",
+      "Suivi des performances opérationnelles"
+    ],
+  },
+  {
+    label: "🧠 Conception UX / UI",
+    skills: [
+      "Conception d'un parcours utilisateur simplifié en plusieurs étapes",
+      "Création d'interfaces interactives avec feedback visuel",
+      "Optimisation de l'expérience de réservation",
+      "Design d'interfaces adaptées à différents profils utilisateurs",
+      "Conception d'interfaces orientées productivité pour l'administration"
+    ],
+  },
+  {
+    label: "📈 Gestion de Projet Applicatif",
+    skills: [
+      "Analyse d'un besoin métier réel",
+      "Traduction d'un besoin métier en solution logicielle",
+      "Conception d'un produit logiciel complet",
+      "Documentation fonctionnelle et technique d'un projet",
+      "Présentation technique d'un projet applicatif"
+    ],
+  },
+];

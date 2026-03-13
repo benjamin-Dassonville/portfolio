@@ -14,6 +14,7 @@ import Stage1erAnnee from './containers/portfolio/projet/Stage_1er_Annee';
 import VFGAuto1erAnnee from './containers/portfolio/projet/vfgauto_1er_annee';
 import Stage2emeAnnee from './containers/portfolio/projet/Stage_2eme_Annee';
 import GLPI from './containers/portfolio/projet/GLPI';
+import AngleIntermaideProject from './containers/portfolio/projet/Angle_Interm_Aide';
 
 function App() {
 
@@ -49,6 +50,7 @@ const renderParticleJsInHomePage = location.pathname === "/";
       <Route path="/vfgauto" element={<VFGAuto1erAnnee />} />
       <Route path="/glpi" element={<GLPI />} />
       <Route path="/stage2" element={<Stage2emeAnnee />} />
+      <Route path="/angle" element={<AngleIntermaideProject />} />
       {/* If you want a contact page in the navbar/route, re-enable this line and import Contact above */}
     </Routes>
     </div>

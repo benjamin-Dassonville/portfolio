@@ -27,6 +27,12 @@ const portfolioData = [
     image: ImageGLPI,
     link: "/glpi",
   },
+  {
+    id: 3,
+    name: "Angle Interm'Aide - PWA Flutter",
+    image: ImageOne,
+    link: "/angle",
+  },
 ];
 
 const filterData = [
