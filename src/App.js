@@ -1,5 +1,6 @@
 import './App.scss';
 import { Routes, Route, useLocation } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 import Particles from 'react-tsparticles';
 import { loadFull } from 'tsparticles';
 
@@ -29,6 +30,7 @@ const renderParticleJsInHomePage = location.pathname === "/";
 
   return (
     <div className="App">
+      <Analytics />
       {/* particules js */}
 
     {renderParticleJsInHomePage && (
